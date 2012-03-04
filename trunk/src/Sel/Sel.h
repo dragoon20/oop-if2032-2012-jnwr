@@ -1,8 +1,8 @@
 #ifndef SEL_H
 #define SEL_H
-
+#include "../Point/point.h
 template <class tes>
-class sel:public point
+class sel<tes>:public point
 {
     public:
         sel();
@@ -20,6 +20,7 @@ class sel:public point
 
 
     private:
+        tes t;
 };
 
 #endif // SEL_H
