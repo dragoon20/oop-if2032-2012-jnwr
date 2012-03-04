@@ -1,96 +1,96 @@
-// File : Point.cpp
+// File : point.cpp
 //
 
 #include "point.h"
 using namespace std ;
 
 // 5 sekawan
-Point::Point ()								// ctor
+point::point ()								// ctor
 {}
 
-Point::Point (int Newx, int Newy)			// ctor dengan parameter
+point::point (int Newx, int Newy)			// ctor dengan parameter
 {
 	x = Newx;
 	y = Newy;
 }
 
-Point::Point (const Point& P) 
+point::point (const point& P) 
 {
 	x = P.x ;
 	y = P.y ;
 }
 
-Point::~Point ()							// dtor
+point::~point ()							// dtor
 {}
 
-Point& Point::operator= (const Point& P1)				// operator assignment
+point& point::operator= (const point& P1)				// operator assignment
 {
 	x = P1.x ;
 	y = P1.y ;
 	return *this ;
 }
 
-ostream &Point::operator<< (ostream& out, const Point& P)	// operator ostream	
+ostream &point::operator<< (ostream& out, const point& P)	// operator ostream	
 {
 	out << "(" ; out  << P.x ; out << "," ; out  << P.y ; out << ")" ;
 	return out ;
 }
 
 // Getter & Setter
-int Point::GetX ()
+int point::GetX ()
 {
 	return x;
 }
 
-int Point::GetY ()
+int point::GetY ()
 {
 	return y;
 }
 
-void Point::SetX (int NewX)
+void point::SetX (int NewX)
 {
 	x = NewX;
 }
 
-void Point::SetY (int NewY)
+void point::SetY (int NewY)
 {
 	y = NewY;
 }
 
 // Predikat
-int Point::IsOrigin ()
+int point::IsOrigin ()
 // mengirim true (1) jika Current_Object =(0,0); false(0)jika bukan Origin
 {	
 	return (x == 0 && y == 0);
 }	
 
-int Point::IsSumbuX ()
+int point::IsSumbuX ()
 // mengirim true jika Current_Object berada pada sumbu X
 {
 	return (GetY() == 0) ;
 }
 
-int Point::IsSumbuY ()
+int point::IsSumbuY ()
 // mengirim true jika Current_Object berada pada sumbu Y
 {
 	return (GetX() == 0) ;
 }
 
 // Relasional	
-int Point::XLT(Point P1)
+int point::XLT(point P1)
 // true jika absis Current_Object lebih besar dari absis P1
 {
 	return (GetX() > P1.GetX());
 }
 
-int Point::YLT(Point P1)
+int point::YLT(point P1)
 // true jika ordinat Current_Object lebih besar dari ordinat P1
 {
 	return (GetY() > P1.GetY());
 }
 
 // Method
-void Point::move (int X, int Y)
+void point::move (int X, int Y)
 // memindahkan current_object sejauh X absis dan Y ordinat
 {
 	int newabsis ; int newordinat ;
@@ -99,7 +99,7 @@ void Point::move (int X, int Y)
 	SetX(newabsis) ; SetY(newabsis) ;
 }
 
-void Point::mirror (Point P)
+void point::mirror (point P)
 // membuat current_object menjadi cerminannya terhadap titik P
 {
 	int newabsis ; int newordinat ;
@@ -108,7 +108,7 @@ void Point::mirror (Point P)
 	SetX(newabsis) ; SetY(newabsis) ;
 }
 
-void Point::rotate (Point P, int i)
+void point::rotate (point P, int i)
 // membuat current object diputar searah jarum jam terhadap titik P sejauh 90 (i = 1), 180 (i = 2), atau 270 (i = 3) derajat
 {
 	if (i == 1) 
@@ -135,10 +135,10 @@ void Point::rotate (Point P, int i)
 	}
 }
 
-int Point::kuadran ()
-// mengembalikan kuadran dari current_object. Mengembalikan 0 jika Point merupakan titik origin atau berada pada sumbu X atau sumbu Y
+int point::kuadran ()
+// mengembalikan kuadran dari current_object. Mengembalikan 0 jika point merupakan titik origin atau berada pada sumbu X atau sumbu Y
 {
-	Point P(0,0) ;
+	point P(0,0) ;
 	if (IsOrigin() || IsSumbuX() || IsSumbuY())
 		return 0 ;
 	else if (XLT(P) && YLT(P))
