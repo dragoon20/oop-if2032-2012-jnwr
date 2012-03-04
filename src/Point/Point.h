@@ -1,22 +1,22 @@
-// File : Point.h
+// File : point.h
 //
 
-#ifndef _Point_H
-#define _Point_H
+#ifndef _POINT_H
+#define _POINT_H
 
 #include <iostream>
 
 using namespace std;
 
-class Point { 
+class point { 
 public:
 	// 5 sekawan
-	Point ();												// ctor
-	Point (int, int);										// ctor dengan parameter
-	Point (const Point&) ;									// cctor
-	~Point ();												// dtor
-	Point& operator= (const Point& P1);								// operator assignment
-	friend ostream &operator<< (ostream& out, const Point& P); 	// operator ostream	
+	point ();												// ctor
+	point (int, int);										// ctor dengan parameter
+	point (const point&) ;									// cctor
+	~point ();												// dtor
+	point& operator= (const point& P1);								// operator assignment
+	friend ostream &operator<< (ostream& out, const point& P); 	// operator ostream	
 	
 	// Getter & Setter
 	int GetX ();
@@ -35,20 +35,20 @@ public:
 	// mengirim true jika Current_Object berada pada sumbu Y
 	
 	// Relasional
-	int XLT(Point P1);
+	int XLT(point P1);
 	// true jika absis Current_Object lebih besar dari absis P1
 	
-	int YLT(Point P1);
+	int YLT(point P1);
 	// true jika ordinat Current_Object lebih besar dari ordinat P1
 
 	// Method
 	void move (int X, int Y);
 	// memindahkan current_object sejauh X absis dan Y ordinat
 	
-	void mirror (Point P);
+	void mirror (point P);
 	// membuat current_object menjadi cerminannya terhadap titik P
 
-	void rotate (Point P, int i); 
+	void rotate (point P, int i); 
 	// membuat current object diputar searah jarum jam terhadap titik P sejauh 90 (i = 1), 180 (i = 2), atau 270 (i = 3) derajat
 
 	int kuadran ();
