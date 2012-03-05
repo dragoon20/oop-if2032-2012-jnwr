@@ -30,7 +30,7 @@ point& point::operator= (const point& P1)				// operator assignment
 	return *this ;
 }
 
-ostream &point::operator<< (ostream& out, const point& P)	// operator ostream	
+ostream& operator<< (ostream& out, point P)	// operator ostream	
 {
 	out << "(" ; out  << P.x ; out << "," ; out  << P.y ; out << ")" ;
 	return out ;
