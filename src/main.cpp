@@ -1,6 +1,7 @@
 
 #include "Latar/latar.h"
 #include "Bidang/bidang.h"
+#include "Matrix/matrix.h"
 #include <iostream>
 #include <conio.h>
 
@@ -26,12 +27,15 @@ int main()
 	cout << "Masukkan ukuran latar belakang (M, N): ";
 	cin >> M >> N;
 	latar<char> background(M,N,(sel<char>(point(0,0),blank)));
+	matrix<char> m(M,N,blank);
 
 	cout << "Masukkan kode bidang (dalam angka): ";
 	cin >> x;
 	bidang<char> shape(M,N,x,'*');
 	
-	cout << endl << background << endl << shape << endl;
+	m << background;
+	m << shape;
+	cout << m << endl;
 
 	cout << "Press any key..." << endl;
 	while (getinput()==-1)

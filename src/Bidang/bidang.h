@@ -4,6 +4,7 @@
 
 #include "../Sel/sel.h"
 #include "../Point/point.h"
+#include "../Matrix/matrix.h"
 #include <iostream>
 
 using namespace std;
@@ -31,6 +32,14 @@ class bidang
 				out << b[i];
 			}
 			return out;
+		}
+		friend matrix<atype>& operator << (matrix<atype>& temp, bidang& b)
+		{
+			for (int i=0;i<b.getukuran();++i)
+			{
+				temp[b[i].GetY()][b[i].GetX()] = b[i].gett();
+			}
+			return temp;
 		}
 		
 		// operator overloading []
@@ -70,6 +79,8 @@ bidang<atype>::bidang (int m, int n, int segi, atype c) : M(m), N(n)
 		int x,y;
 		cout << "Masukkan koordinat dari sel: ";
 		cin >> x >> y;
+		x--;
+		y--;
 		isi[i] = sel<atype>(point(x,y),c);
 	}
 }
