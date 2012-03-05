@@ -16,7 +16,7 @@ public:
 	point (const point&) ;									// cctor
 	~point ();												// dtor
 	point& operator= (const point& P1);								// operator assignment
-	friend ostream &operator<< (ostream& out, const point& P); 	// operator ostream	
+	friend ostream& operator<< (ostream& out, point P); 	// operator ostream	
 	
 	// Getter & Setter
 	int GetX ();
@@ -54,7 +54,7 @@ public:
 	int kuadran ();
 	// mengembalikan kuadran dari current_object. Mengembalikan 0 jika Point merupakan titik origin atau berada pada sumbu X atau sumbu Y
 
-private: 	// atribut ADT : private 
+protected: 	// atribut ADT : private 
 	int x; 	//absis
 	int y; 	// ordinat
 

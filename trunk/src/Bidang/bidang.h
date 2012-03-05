@@ -1,47 +1,57 @@
 
-#IFNDEF _BIDANG_
-#DEFINE _BIDANG_
+#ifndef _BIDANG_
+#define _BIDANG_
 
-#include <../Sel/sel.h>
+#include "../Sel/sel.h"
+#include "../Point/point.h"
 #include <iostream>
 
 using namespace std;
 
 template <class atype>
-class bidang<atype>
+class bidang
 {
 	private:
 		// atribut
 		int ukuran;
 		const int M,N;
-		sel* isi<atype>;
+		sel<atype>* isi;
 		
 	public:
 		// 5 sekawan
 		bidang ();
-		bidang (int,int,int,<atype>);
+		bidang (int,int,int,atype);
 		bidang (const bidang&);
 		~bidang ();
 		bidang& operator = (const bidang&);
-		friend ostream& operator << (ostream, bidang);
+		friend ostream& operator << (ostream& out, bidang& b)
+		{
+			for (int i=0;i<b.getukuran();++i)
+			{
+				out << b[i];
+			}
+			return out;
+		}
 		
 		// operator overloading []
-		sel& operator [] (int i);
+		sel<atype>& operator [] (int i) const;
 		
 		// getter setter
 		int getukuran ();
 		void setukuran (int);
+		int getm ();
+		int getn ();
 		
 		// method
 		void move (int,int);
-		void mirror (Point);
-		void rotate (Point,int);
-		void fillbidang (<atype>);
+		void mirror (point);
+		void rotate (point,int);
+		void fillbidang (atype);
 		void resize (int);
-		void addpoint (Point);
-		void deletepoint (Point);
+		void addpoint (point);
+		void deletepoint (point);
 		
-}
+};
 
 // 5 sekawan
 template <class atype>
@@ -51,24 +61,24 @@ bidang<atype>::bidang ()
 }
 
 template <class atype>
-bidang<atype>::bidang (int m, int n, int segi, <atype> c) : M(m), N(n)
+bidang<atype>::bidang (int m, int n, int segi, atype c) : M(m), N(n)
 {
 	ukuran = segi;
-	isi = new sel [ukuran];
+	isi = new sel<atype> [ukuran];
 	for (int i=0;i<ukuran;++i)
 	{
 		int x,y;
-		cout >> "Masukkan koordinat dari sel: "
-		cin << x << y;
-		isi[i] = sel(point(x,y),c);
+		cout << "Masukkan koordinat dari sel: ";
+		cin >> x >> y;
+		isi[i] = sel<atype>(point(x,y),c);
 	}
 }
 
 template <class atype>
-bidang<atype>::bidang (const bidang& b)
+bidang<atype>::bidang (const bidang<atype>& b) : M(b.M), N(b.N)
 {
 	ukuran = b.ukuran;
-	isi = new sel [ukuran]
+	isi = new sel<atype> [ukuran];
 	for (int i=0;i<ukuran;++i)
 	{
 		isi[i]=b[i];
@@ -82,11 +92,11 @@ bidang<atype>::~bidang ()
 }
 
 template <class atype>
-bidang<atype>::bidang& operator = (const bidang&)
+bidang<atype>& bidang<atype>::operator = (const bidang<atype>& b)
 {
 	delete [] isi;
 	ukuran = b.ukuran;
-	isi = new sel [ukuran]
+	isi = new sel<atype> [ukuran];
 	for (int i=0;i<ukuran;++i)
 	{
 		isi[i]=b[i];
@@ -94,19 +104,13 @@ bidang<atype>::bidang& operator = (const bidang&)
 	return *this;
 }
 
-ostream& operator << (ostream out, bidang b)
-{
-	for (int i=0;i<ukuran;++i)
-	{
-		out << b[i];
-	}
-	return *out;
-}
+// template <class atype>
+// ostream& operator << (ostream out, bidang<atype> &b)
 
 
 // operator overloading []
 template <class atype>
-bidang<atype>::sel& operator [] (int i)
+sel<atype>& bidang<atype>::operator [] (int i) const
 {
 	return isi[i];
 }
@@ -137,7 +141,7 @@ void bidang<atype>::move (int x, int y)
 }
 
 template <class atype>
-void bidang<atype>::mirror (Point P)
+void bidang<atype>::mirror (point P)
 {
 	for (int i=0;i<ukuran;++i)
 	{
@@ -146,7 +150,7 @@ void bidang<atype>::mirror (Point P)
 }
 
 template <class atype>
-void bidang<atype>::rotate (Point P, int i)
+void bidang<atype>::rotate (point P, int i)
 {
 	for (int i=0;i<ukuran;++i)
 	{
@@ -155,7 +159,7 @@ void bidang<atype>::rotate (Point P, int i)
 }
 
 template <class atype>
-void bidang<atype>::fillbidang (<atype>)
+void bidang<atype>::fillbidang (atype)
 {
 	
 }
@@ -166,14 +170,14 @@ void bidang<atype>::resize (int)
 }
 
 template <class atype>
-void bidang<atype>::addpoint (Point P)
+void bidang<atype>::addpoint (point P)
 {
 	isi[ukuran] = P;
 	ukuran++;
 }
 
 template <class atype>
-void bidang<atype>::deletepoint (Point P)
+void bidang<atype>::deletepoint (point P)
 {
 	int i = 0;
 	bool cek = true;
@@ -192,4 +196,4 @@ void bidang<atype>::deletepoint (Point P)
 	ukuran--;
 }
 
-#ENDIF
+#endif

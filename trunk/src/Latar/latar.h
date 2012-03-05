@@ -1,35 +1,46 @@
 
-#IFNDEF _LATAR_
-#DEFINE _LATAR_
+#ifndef _LATAR_
+#define _LATAR_
 
-#include <../Sel/sel.h>
+#include "../Sel/sel.h"
 #include <iostream>
 
 using namespace std;
 
-template <class atype>
-extern const <atype> blank;
+// template <class atype>
+// extern const atype blank;
 
 template <class atype>
-class latar<atype>
+class latar
 {
 	private:
 		// atribut
 		int M;
 		int N;
-		<atype>* isi;
+		sel<atype>** isi;
 	
 	public:
 		// 5 sekawan
 		latar ();
-		latar (int,int,<atype>);
+		latar (int,int,sel<atype>);
 		latar (const latar&);
 		~latar ();
-		latar& operator = (const latar&);
-		friend ostream& operator << (ostream, latar);
+		latar<atype>& operator = (const latar&);
+		friend ostream& operator << (ostream& out, latar& l)
+		{
+			for (int i=0;i<l.getm();++i)
+			{
+				for (int j=0;j<l.getn();++j)
+				{
+					out << l[i][j];			
+				}
+				out << endl;
+			}
+			return out;
+		}
 		
 		// operator overloading []
-		sel& operator [] (int,int);
+		sel<atype>* operator [] (int) const;
 		
 		// getter setter
 		int getm ();
@@ -38,9 +49,9 @@ class latar<atype>
 		void setn (int);
 		
 		//method
-		void filllatar (<atype>);
+		void filllatar (atype);
 		
-}
+};
 
 // 5 sekawan
 template <class atype>
@@ -48,25 +59,27 @@ latar<atype>::latar ()
 {
 	M = 20;
 	N = 40;
-	isi = new sel [M][N];
+	isi = new sel<atype> *[M];
 	for (int i=0;i<M;++i)
 	{
+		isi[i] = new sel<atype> [N];
 		for (int j=0;j<N;++i)
 		{
-			isi[i][j]=blank;			
+		
 		}
 	}
 }
 
 template <class atype>
-latar<atype>::latar (int m, int n, <atype> c)
+latar<atype>::latar (int m, int n, sel<atype> c)
 {
 	M = m;
 	N = n;
-	isi = new sel [M][N];
+	isi = new sel<atype> *[M];
 	for (int i=0;i<M;++i)
 	{
-		for (int j=0;j<N;++i)
+		isi[i] = new sel<atype> [N];
+		for (int j=0;j<N;++j)
 		{
 			isi[i][j]=c;			
 		}
@@ -78,9 +91,10 @@ latar<atype>::latar (const latar& l)
 {
 	M = l.M;
 	N = l.N;
-	isi = new sel [M][N];
+	isi = new sel<atype> *[M];
 	for (int i=0;i<M;++i)
 	{
+		isi[i] = new sel<atype> [N];
 		for (int j=0;j<N;++i)
 		{
 			isi[i][j] = l[i][j];			
@@ -95,14 +109,15 @@ latar<atype>::~latar ()
 }
 
 template <class atype>
-latar<atype>::latar& operator = (const latar& l)
+latar<atype>& latar<atype>::operator = (const latar& l)
 {
 	delete [] isi;
 	M = l.M;
 	N = l.N;
-	isi = new sel [M][N];
+	isi = new sel<atype> *[M];
 	for (int i=0;i<M;++i)
 	{
+		isi[i] = new sel<atype> [N];
 		for (int j=0;j<N;++i)
 		{
 			isi[i][j] = l[i][j];			
@@ -111,24 +126,15 @@ latar<atype>::latar& operator = (const latar& l)
 	return *this;
 }
 
-friend ostream& operator << (ostream out, latar l)
-{
-	for (int i=0;i<M;++i)
-	{
-		for (int j=0;j<N;++i)
-		{
-			out << l[i][j];			
-		}
-		out << endl;
-	}
-	return *out;
-}
+//template <class atype>
+//ostream& operator << (ostream& out, latar<atype>& l)
+
 
 // operator overloading []
 template <class atype>
-latar<atype>::sel& operator [] (int i, int j)
+sel<atype>* latar<atype>::operator [] (int i) const
 {
-	return isi[i][j];
+	return isi[i];
 }
 
 // getter setter
@@ -158,8 +164,8 @@ void latar<atype>::setn (int n)
 
 //method
 template <class atype>
-void latar<atype>::filllatar (<atype>)
+void latar<atype>::filllatar (atype)
 {
 }
 
-#ENDIF
+#endif
