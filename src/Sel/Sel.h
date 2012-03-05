@@ -8,7 +8,7 @@ class sel : public point
 	// atribut
 	private:
 		tes t;
-		
+
     public:
 		// 5 sekawan
         sel();
@@ -16,7 +16,11 @@ class sel : public point
         ~sel();
         sel(const sel&);
         sel<tes>& operator=(const sel&);
-		
+        friend ostream& operator << (ostream& out, sel& s)
+		{
+			out<<s.tes();
+			return out;
+		}
         //Getter Setter
         point getp();
         tes gett();
@@ -83,7 +87,7 @@ void sel<tes>::setp(const point& p)
 template <class tes>
 void sel<tes>::sett(const tes& T)
 {
-	t = t;
+	t = T;
 }
 
 #endif // SEL_H
