@@ -3,6 +3,7 @@
 #define _LATAR_
 
 #include "../Sel/sel.h"
+#include "../Matrix/matrix.h"
 #include <iostream>
 
 using namespace std;
@@ -38,7 +39,17 @@ class latar
 			}
 			return out;
 		}
-		
+		friend matrix<atype>& operator << (matrix<atype>& temp, latar& l)
+		{
+			for (int i=0;i<l.getm();++i)
+			{
+				for (int j=0;j<l.getn();++j)
+				{
+					temp[i][j] = l[i][j].gett();			
+				}
+			}
+			return temp;
+		}
 		// operator overloading []
 		sel<atype>* operator [] (int) const;
 		
