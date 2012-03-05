@@ -18,7 +18,7 @@ class sel : public point
         sel<tes>& operator=(const sel&);
         friend ostream& operator << (ostream& out, sel& s)
 		{
-			out<<s.tes();
+			out<<s.t;
 			return out;
 		}
         //Getter Setter

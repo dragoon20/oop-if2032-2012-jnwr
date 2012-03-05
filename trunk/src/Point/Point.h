@@ -14,7 +14,7 @@ public:
 	point ();												// ctor
 	point (int, int);										// ctor dengan parameter
 	point (const point&) ;									// cctor
-	~point ();												// dtor
+	virtual ~point ();												// dtor
 	point& operator= (const point& P1);								// operator assignment
 	friend ostream& operator<< (ostream& out, point P); 	// operator ostream	
 	
