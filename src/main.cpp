@@ -2,14 +2,26 @@
 #include "Latar/latar.h"
 #include "Bidang/bidang.h"
 #include <iostream>
+#include <conio.h>
 
 using namespace std;
 
-const char blank = ' ';
+const char blank = '_';
+
+int getinput()
+{
+	if (_kbhit())
+	{
+		_getch();
+		return 0;
+	}
+	return -1;
+}
 
 int main()
 {
 	int M,N,x;
+	char c;
 	
 	cout << "Masukkan ukuran latar belakang (M, N): ";
 	cin >> M >> N;
@@ -19,10 +31,12 @@ int main()
 	cin >> x;
 	bidang<char> shape(M,N,x,'*');
 	
-	cout << endl;
-	cout << background;
-	cout << endl;
-	cout << shape;
+	cout << endl << background << endl << shape << endl;
+
+	cout << "Press any key..." << endl;
+	while (getinput()==-1)
+	{
+	};
 	
 	return 0;
 }
