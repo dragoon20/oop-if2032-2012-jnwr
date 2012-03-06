@@ -19,8 +19,8 @@ public:
 	friend ostream& operator<< (ostream& out, point P); 	// operator ostream	
 	
 	// Getter & Setter
-	int GetX ();
-	int GetY ();
+	int GetX () const;
+	int GetY () const;
 	void SetX (int);
 	void SetY (int);
 

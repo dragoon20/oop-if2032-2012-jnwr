@@ -21,7 +21,8 @@ point::point (const point& P)
 }
 
 point::~point ()							// dtor
-{}
+{
+}
 
 point& point::operator= (const point& P1)				// operator assignment
 {
@@ -37,12 +38,12 @@ ostream& operator<< (ostream& out, point P)	// operator ostream
 }
 
 // Getter & Setter
-int point::GetX ()
+int point::GetX () const
 {
 	return x;
 }
 
-int point::GetY ()
+int point::GetY () const
 {
 	return y;
 }
