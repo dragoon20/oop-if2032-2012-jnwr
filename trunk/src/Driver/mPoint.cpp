@@ -1,13 +1,13 @@
 // File : mPoint.cpp
 //
 
-#include "point.h"
+#include "Point.h"
 #include <iostream>
 #include <ostream>
 using namespace std ;
 
 int main () {
-	Point P1 ;
+	point P1 ;
 	P1.SetX(0) ;
 	P1.SetY(0) ;
 	cout << "Dibentuk sebuah point P1" << endl ;
@@ -15,24 +15,24 @@ int main () {
 	cout << endl ; 
 	
 	cout << "Dibentuk sebuah point P2" << endl ;
-	Point P2(1,1) ;
+	point P2(1,1) ;
 	cout << "P2 = " << P2 << endl ;
 	cout << endl ;
 	
 	cout << "Dibentuk sebuah point P3 = P2" << endl ;
-	Point P3 = P2 ;
+	point P3 = P2 ;
 	cout << "P3 = " << P3 << endl ;
 	cout << endl ;
 	
 	cout << "Apakah titik P1 merupakan titik origin?" << endl ;
-	if (IsOrigin(P1))
+	if (P1.IsOrigin())
 		cout << "Ya" << endl ;
 	else
 		cout << "Tidak" << endl ;
 	cout << endl ;
 	
 	cout << "Apakah titik P2 merupakan titik origin?" << endl ;
-	if (IsOrigin(P2))
+	if (P2.IsOrigin())
 		cout << "Ya" << endl ;
 	else
 		cout << "Tidak" << endl ;

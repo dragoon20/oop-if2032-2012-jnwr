@@ -96,7 +96,7 @@ void point::move (int X, int Y)
 	int newabsis ; int newordinat ;
 	newabsis = GetX() + X ;
 	newordinat = GetY() + Y ;
-	SetX(newabsis) ; SetY(newabsis) ;
+	SetX(newabsis) ; SetY(newordinat) ;
 }
 
 void point::mirror (point P)
@@ -105,7 +105,7 @@ void point::mirror (point P)
 	int newabsis ; int newordinat ;
 	newabsis = -1 * (GetX() - P.GetX()) + P.GetX() ;
 	newordinat = -1 * (GetY() - P.GetY()) + P.GetY() ;
-	SetX(newabsis) ; SetY(newabsis) ;
+	SetX(newabsis) ; SetY(newordinat) ;
 }
 
 void point::rotate (point P, int i)
@@ -116,7 +116,7 @@ void point::rotate (point P, int i)
 		int newabsis ; int newordinat ;
 		newabsis = GetY() ;
 		newordinat = -1 * (GetX() - P.GetY()) + P.GetY() ;
-		SetX(newabsis) ; SetY(newabsis) ;
+		SetX(newabsis) ; SetY(newordinat) ;
 	}
 	else if (i == 2)
 	{
@@ -127,7 +127,7 @@ void point::rotate (point P, int i)
 		int newabsis ; int newordinat ;
 		newabsis = -1 * (GetY() - P.GetX()) + P.GetX() ;
 		newordinat = GetX() ;
-		SetX(newabsis) ; SetY(newabsis) ;
+		SetX(newabsis) ; SetY(newordinat) ;
 	}
 	else
 	{
