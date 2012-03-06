@@ -37,7 +37,7 @@ class bidang
 		{
 			for (int i=0;i<b.getukuran();++i)
 			{
-				temp[b[i].GetY()][b[i].GetX()] = b[i].gett();
+				temp[b.getm()-b[i].GetY()-1][b[i].GetX()] = b[i].gett();
 			}
 			return temp;
 		}
@@ -81,7 +81,26 @@ bidang<atype>::bidang (int m, int n, int segi, atype c) : M(m), N(n)
 		cin >> x >> y;
 		x--;
 		y--;
-		isi[i] = sel<atype>(point(x,y),c);
+		try
+		{
+			if ((x>=N)||(x<0)||(y>=M)||(y<0))
+			{
+				throw "Titik pada bidang berada di luar batas latar.";
+			}
+			for (int j=0;j<i;++j)
+			{
+				if ((isi[j].GetX()==x)&&(isi[j].GetY()==y))
+				{
+					throw "Titik yang ingin dimasukkan sudah menjadi salah satu titik batas.";
+				}
+			}
+			isi[i] = sel<atype>(point(x,y),c);
+		}
+		catch (const char* s)
+		{
+			cout << "Terjadi kesalahan: " << endl << s << endl;
+			--i;
+		}
 	}
 }
 
@@ -140,32 +159,102 @@ void bidang<atype>::setukuran (int i)
 	ukuran = i;
 }
 
+template <class atype>
+int bidang<atype>::getm ()
+{
+	return M;
+}
+
+template <class atype>
+int bidang<atype>::getn ()
+{
+	return N;
+}
 
 // method
 template <class atype>
-void bidang<atype>::move (int x, int y)
+void bidang<atype>::move (int a, int b)
 {
-	for (int i=0;i<ukuran;++i)
+	point P[ukuran];
+	
+	try
 	{
-		isi[i].move(x,y);
+		for (int i=0;i<ukuran;++i)
+		{
+			P[i] = isi[i].getp();
+			P[i].move(a,b);
+			int x = P[i].GetX();
+			int y = P[i].GetY();
+			if ((x>=N)||(x<0)||(y>=M)||(y<0))
+			{
+				throw "Titik pada bidang menjadi berada di luar batas latar saat dipindahkan.";
+			}
+		}
+		for (int i=0;i<ukuran;++i)
+		{
+			isi[i].setp(P[i]);
+		}
+	}
+	catch (const char* s)
+	{
+		cout << "Terjadi kesalahan: " << endl << s << endl;
 	}
 }
 
 template <class atype>
 void bidang<atype>::mirror (point P)
 {
-	for (int i=0;i<ukuran;++i)
+	point Q[ukuran];
+	try
 	{
-		isi[i].move(P);
+		for (int i=0;i<ukuran;++i)
+		{
+			Q[i] = isi[i].getp();
+			Q[i].mirror(P);
+			int x = Q[i].GetX();
+			int y = Q[i].GetY();
+			if ((x>=N)||(x<0)||(y>=M)||(y<0))
+			{
+				throw "Titik pada bidang menjadi berada di luar batas latar saat dicerminkan.";
+			}
+		}
+		for (int i=0;i<ukuran;++i)
+		{
+			isi[i].setp(Q[i]);
+		}
+	}
+	catch (const char* s)
+	{
+		cout << "Terjadi kesalahan: " << endl << s << endl;
 	}
 }
 
 template <class atype>
-void bidang<atype>::rotate (point P, int i)
+void bidang<atype>::rotate (point P, int t)
 {
-	for (int i=0;i<ukuran;++i)
+	point Q[ukuran];
+	try
 	{
-		isi[i].rotate(P,i);
+		for (int i=0;i<ukuran;++i)
+		{
+	
+			Q[i] = isi[i].getp();
+			Q[i].rotate(P,t);
+			int x = Q[i].GetX();
+			int y = Q[i].GetY();
+			if ((x>=N)||(x<0)||(y>=M)||(y<0))
+			{
+				throw "Titik pada bidang menjadi berada di luar batas latar saat diputar.";
+			}
+		}
+		for (int i=0;i<ukuran;++i)
+		{
+			isi[i].setp(Q[i]);
+		}
+	}	
+	catch (const char* s)
+	{
+		cout << "Terjadi kesalahan: " << endl << s << endl;
 	}
 }
 

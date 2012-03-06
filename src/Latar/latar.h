@@ -76,7 +76,8 @@ latar<atype>::latar ()
 		isi[i] = new sel<atype> [N];
 		for (int j=0;j<N;++i)
 		{
-		
+			isi[i][j].SetX(j);
+			isi[i][j].SetY(M-i-1);
 		}
 	}
 }
@@ -93,6 +94,8 @@ latar<atype>::latar (int m, int n, sel<atype> c)
 		for (int j=0;j<N;++j)
 		{
 			isi[i][j]=c;			
+			isi[i][j].SetX(j);
+			isi[i][j].SetY(M-i-1);
 		}
 	}
 }
@@ -108,7 +111,7 @@ latar<atype>::latar (const latar& l)
 		isi[i] = new sel<atype> [N];
 		for (int j=0;j<N;++i)
 		{
-			isi[i][j] = l[i][j];			
+			isi[i][j] = l[i][j];
 		}
 	}
 }
@@ -131,7 +134,7 @@ latar<atype>& latar<atype>::operator = (const latar& l)
 		isi[i] = new sel<atype> [N];
 		for (int j=0;j<N;++i)
 		{
-			isi[i][j] = l[i][j];			
+			isi[i][j] = l[i][j];
 		}
 	}
 	return *this;
