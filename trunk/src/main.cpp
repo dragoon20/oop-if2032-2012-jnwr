@@ -104,11 +104,11 @@ int main()
 		// rotate
 		if (temp==46)
 		{
-			shape.rotate(point(5,5),1);
+			shape.rotate(1);
 		}
 		if (temp==44)
 		{
-			shape.rotate(point(5,5),3);
+			shape.rotate(3);
 		}
 		
 		if (temp!=-1)

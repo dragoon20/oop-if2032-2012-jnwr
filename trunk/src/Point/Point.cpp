@@ -152,8 +152,17 @@ int point::kuadran ()
 		return 4 ;
 }
 
-int point::cross (point P1, point P2, point P3, point P4)
+int side (point P1, point P2, point P3)
 {
 	// (x1-x2)(y3-y4) - (y1-y2)(x3-x4)
-	return ((P1.GetX() - P2.GetX())*(P3.GetY() - P4. GetY()) - (P1.GetY() - P2.GetY())*(P3.GetX() - P4.GetX())) ;
+	int temp = ((P2.GetX() - P1.GetX())*(P3.GetY() - P1. GetY()) - (P2.GetY() - P1.GetY())*(P3.GetX() - P1.GetX()));
+	if (temp < 0)
+	{
+		return -1;
+	}
+	if (temp > 0)
+	{
+		return 1;
+	}
+	return 0;
 }
