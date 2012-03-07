@@ -155,5 +155,5 @@ int point::kuadran ()
 int point::cross (point P1, point P2, point P3, point P4)
 {
 	// (x1-x2)(y3-y4) - (y1-y2)(x3-x4)
-	return ((P1.Getx() - P2.GetX())*(P3.GetY() - P4. GetY()) - (P1.GetY() - P2.GetY())*(P3.GetX() - P4.GetX())) ;
+	return ((P1.GetX() - P2.GetX())*(P3.GetY() - P4. GetY()) - (P1.GetY() - P2.GetY())*(P3.GetX() - P4.GetX())) ;
 }
