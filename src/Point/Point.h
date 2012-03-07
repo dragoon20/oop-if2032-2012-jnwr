@@ -54,7 +54,8 @@ public:
 	int kuadran ();
 	// mengembalikan kuadran dari current_object. Mengembalikan 0 jika Point merupakan titik origin atau berada pada sumbu X atau sumbu Y
 	
-	int cross (point P1, point P2, point P3, point P4);
+	friend int side (point P1, point P2, point P3);
+	
 	// melakukan cross pada 2 buah line, yaitu line P1-P2 dan P3-P4
 	
 protected: 	// atribut ADT : private 
