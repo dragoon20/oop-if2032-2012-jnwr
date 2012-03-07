@@ -115,8 +115,8 @@ void point::rotate (point P, int i)
 	if (i == 1) 
 	{
 		int newabsis ; int newordinat ;
-		newabsis = GetY() ;
-		newordinat = -1 * (GetX() - P.GetY()) + P.GetY() ;
+		newabsis = (GetY() - P.GetY()) + P.GetX() ;
+		newordinat = -1 * (GetX() - P.GetX()) + P.GetY() ;
 		SetX(newabsis) ; SetY(newordinat) ;
 	}
 	else if (i == 2)
@@ -126,8 +126,8 @@ void point::rotate (point P, int i)
 	else if (i == 3)
 	{
 		int newabsis ; int newordinat ;
-		newabsis = -1 * (GetY() - P.GetX()) + P.GetX() ;
-		newordinat = GetX() ;
+		newabsis = -1 * (GetY() - P.GetY()) + P.GetX() ;
+		newordinat = (GetX() - P.GetX()) + P.GetY() ;
 		SetX(newabsis) ; SetY(newordinat) ;
 	}
 	else
