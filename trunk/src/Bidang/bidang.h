@@ -5,8 +5,8 @@
 #include "../Sel/sel.h"
 #include "../Point/point.h"
 #include "../Matrix/matrix.h"
-#include <vector>
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -19,12 +19,12 @@ class bidang
 		int jumlah;
 		const int M,N;
 		sel<atype>* batas;
-		vector< sel<atype> > isi;
+		sel<atype>* isi;
 		
 	public:
 		// 5 sekawan
 		bidang ();
-		bidang (int,int,int,atype);
+		bidang (int,int,int);
 		bidang (const bidang&);
 		~bidang ();
 		bidang& operator = (const bidang&);
@@ -78,18 +78,22 @@ bidang<atype>::bidang ()
 }
 
 template <class atype>
-bidang<atype>::bidang (int m, int n, int segibaru, atype c) : M(m), N(n)
+bidang<atype>::bidang (int m, int n, int segibaru) : M(m), N(n)
 {
+	
+	char c;
+
 	segi = segibaru;
+	jumlah = 0;
 	batas = new sel<atype> [segi];
+	isi = new sel<atype> [M*N];
+	
 	int MinX=N,MinY=M,MaxX=0,MaxY=0;
 	for (int i=0;i<segi;++i)
 	{
 		int x,y;
 		cout << "Masukkan koordinat dari sel: ";
 		cin >> x >> y;
-		x--;
-		y--;
 		try
 		{
 			if ((x>=N)||(x<0)||(y>=M)||(y<0))
@@ -121,6 +125,10 @@ bidang<atype>::bidang (int m, int n, int segibaru, atype c) : M(m), N(n)
 					throw "Titik yang ingin dimasukkan sudah menjadi salah satu titik batas.";
 				}
 			}
+			
+			c = (rand() % 93) + '!';
+
+			
 			batas[i] = sel<atype>(point(x,y),c);
 		}
 		catch (const char* s)
@@ -142,7 +150,7 @@ bidang<atype>::bidang (int m, int n, int segibaru, atype c) : M(m), N(n)
 	Xt /= segi;
 	Yt /= segi;
 	
-	cout << Xt << Yt << endl;
+	// cout << Xt << Yt << endl;
 	
 	P.SetX(Xt);
 	P.SetY(Yt);
@@ -160,12 +168,13 @@ bidang<atype>::bidang (int m, int n, int segibaru, atype c) : M(m), N(n)
 		{
 			int k=0;
 			bool cek=true;
-			while ((cek)&&(k<segi))
+			while (k<segi)
 			{
 				int next = (k+1)%segi;
 				int temp = side(batas[k].getp(),batas[next].getp(),point(i,j));
 				if (temp==0)
 				{
+					cek = true;
 					int x1 = batas[k].getp().GetX();
 					int x2 = batas[next].getp().GetX();
 					int y1 = batas[k].getp().GetY();
@@ -191,11 +200,13 @@ bidang<atype>::bidang (int m, int n, int segibaru, atype c) : M(m), N(n)
 			}		
 			if (cek)
 			{
-				isi.push_back(sel<atype>(point(i,j),c));
+				c = (rand() % 93) + '!';
+				
+				isi[jumlah] = sel<atype>(point(i,j),c);
+				jumlah++;
 			}
 		}
 	}
-	jumlah = isi.size();
 }
 
 template <class atype>
@@ -210,7 +221,7 @@ bidang<atype>::bidang (const bidang<atype>& b) : M(b.M), N(b.N)
 	}
 	for (int i=0;i<jumlah;++i)
 	{
-		isi.pushback(b.isi[i]);
+		isi[i] = b.isi[i];
 	}
 }
 
@@ -224,10 +235,7 @@ template <class atype>
 bidang<atype>& bidang<atype>::operator = (const bidang<atype>& b)
 {
 	delete [] batas;
-	for (int i=0;i<jumlah;++i)
-	{
-		isi.popback();
-	}
+	delete [] isi;
 	segi = b.segi;
 	jumlah = b.jumlah;
 	isi = new sel<atype> [segi];
@@ -237,7 +245,7 @@ bidang<atype>& bidang<atype>::operator = (const bidang<atype>& b)
 	}
 	for (int i=0;i<jumlah;++i)
 	{
-		isi.pushback(b.isi[i]);
+		isi[i] = b.isi[i];
 	}
 	return *this;
 }
@@ -401,9 +409,16 @@ void bidang<atype>::rotate (int t)
 }
 
 template <class atype>
-void bidang<atype>::fillbidang (atype)
+void bidang<atype>::fillbidang (atype c)
 {
-	
+	for (int i=0;i<segi;++i)
+	{
+		batas[i].sett(c);
+	}
+	for (int i=0;i<jumlah;++i)
+	{
+		isi[i].sett(c);
+	}
 }
 
 template <class atype>

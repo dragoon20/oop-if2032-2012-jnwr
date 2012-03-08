@@ -36,19 +36,6 @@ int getkey() {
     return character;
 }
 
-/*int getinput()
-{
-	if (_kbhit())
-	{
-		int temp=_getch();
-		if (temp!=224)
-		{
-			return temp;
-		}
-		return _getch();
-	}
-	return -1;
-}*/
 
 int main()
 {
@@ -96,7 +83,7 @@ int main()
 		}
 	}
 
-	bidang<char> shape(M,N,x,'*');
+	bidang<char> shape(M,N,x);
 	
 	m << background;
 	m << shape;
