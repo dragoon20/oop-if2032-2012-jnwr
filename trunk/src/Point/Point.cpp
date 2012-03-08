@@ -14,7 +14,7 @@ point::point (int Newx, int Newy)			// ctor dengan parameter
 	y = Newy;
 }
 
-point::point (const point& P) 
+point::point (const point& P) 				// cctor
 {
 	x = P.x ;
 	y = P.y ;
@@ -39,21 +39,25 @@ ostream& operator<< (ostream& out, point P)	// operator ostream
 
 // Getter & Setter
 int point::GetX () const
+// mengembalikan absis dari point
 {
 	return x;
 }
 
 int point::GetY () const
+// mengembalikan ordinat dari point
 {
 	return y;
 }
 
 void point::SetX (int NewX)
+// menge-set absis dari point
 {
 	x = NewX;
 }
 
 void point::SetY (int NewY)
+// menge-set ordinat dari point
 {
 	y = NewY;
 }
@@ -61,9 +65,9 @@ void point::SetY (int NewY)
 // Predikat
 int point::IsOrigin ()
 // mengirim true (1) jika Current_Object =(0,0); false(0)jika bukan Origin
-{	
+{
 	return (x == 0 && y == 0);
-}	
+}
 
 int point::IsSumbuX ()
 // mengirim true jika Current_Object berada pada sumbu X
@@ -140,8 +144,8 @@ int point::kuadran ()
 }
 
 int side (point P1, point P2, point P3)
+// mengembalikan nilai Point berada pada sisi mana garis
 {
-	// (x1-x2)(y3-y4) - (y1-y2)(x3-x4)
 	int temp = ((P2.GetX() - P1.GetX())*(P3.GetY() - P1. GetY()) - (P2.GetY() - P1.GetY())*(P3.GetX() - P1.GetX()));
 	if (temp < 0)
 	{

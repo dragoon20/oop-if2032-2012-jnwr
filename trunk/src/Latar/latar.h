@@ -1,3 +1,4 @@
+// File : latar.h
 
 #ifndef _LATAR_
 #define _LATAR_
@@ -16,9 +17,9 @@ class latar
 {
 	private:
 		// atribut
-		int M;
-		int N;
-		sel<atype>** isi;
+		int M;		// lebar dari latar
+		int N;		// panjang dari latar
+		sel<atype>** isi;	// isi sel dari latar
 	
 	public:
 		// 5 sekawan
@@ -28,6 +29,7 @@ class latar
 		~latar ();
 		latar<atype>& operator = (const latar&);
 		friend ostream& operator << (ostream& out, latar& l)
+		// operator ostream
 		{
 			for (int i=0;i<l.getm();++i)
 			{
@@ -41,6 +43,7 @@ class latar
 		}
 		friend matrix<atype>& operator << (matrix<atype>& temp, latar& l)
 		{
+		// operator ostream untuk matrix
 			for (int i=0;i<l.getm();++i)
 			{
 				for (int j=0;j<l.getn();++j)
@@ -60,13 +63,13 @@ class latar
 		void setn (int);
 		
 		//method
-		void filllatar (atype);
 		
 };
 
 // 5 sekawan
 template <class atype>
 latar<atype>::latar ()
+// ctor
 {
 	M = 20;
 	N = 40;
@@ -84,6 +87,7 @@ latar<atype>::latar ()
 
 template <class atype>
 latar<atype>::latar (int m, int n, sel<atype> c)
+// ctor dengan parameter
 {
 	M = m;
 	N = n;
@@ -102,6 +106,7 @@ latar<atype>::latar (int m, int n, sel<atype> c)
 
 template <class atype>
 latar<atype>::latar (const latar& l)
+// cctor
 {
 	M = l.M;
 	N = l.N;
@@ -118,12 +123,14 @@ latar<atype>::latar (const latar& l)
 
 template <class atype>
 latar<atype>::~latar ()
+// dtor
 {
 	delete [] isi;
 }
 
 template <class atype>
 latar<atype>& latar<atype>::operator = (const latar& l)
+// operator assignment
 {
 	delete [] isi;
 	M = l.M;
@@ -143,7 +150,6 @@ latar<atype>& latar<atype>::operator = (const latar& l)
 //template <class atype>
 //ostream& operator << (ostream& out, latar<atype>& l)
 
-
 // operator overloading []
 template <class atype>
 sel<atype>* latar<atype>::operator [] (int i) const
@@ -154,32 +160,32 @@ sel<atype>* latar<atype>::operator [] (int i) const
 // getter setter
 template <class atype>
 int latar<atype>::getm ()
+// mengembalikan lebar dari latar
 {
 	return M;
 }
 
 template <class atype>
 int latar<atype>::getn ()
+// mengembalikan panjang dari latar
 {
 	return N;
 }
 
 template <class atype>
 void latar<atype>::setm (int m)
+// menge-set nilai lebar dari latar
 {
 	M = m;
 }
 
 template <class atype>
 void latar<atype>::setn (int n)
+// menge-set nilai panjang dari latar
 {
 	N = n;
 }
 
 //method
-template <class atype>
-void latar<atype>::filllatar (atype)
-{
-}
 
 #endif

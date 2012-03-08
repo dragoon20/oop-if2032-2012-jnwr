@@ -147,7 +147,7 @@ int main()
 		// C
 		if (temp == 67) 
 		{
-			int luas = shape[select][nstate[select]][0].countluas();
+			int luas = shape[select][nstate[select][0].countluas();
 			int hasil = (M*N) - luas;
 			cout << "Kepadatan bidang = " << luas << ":" << hasil << endl;
 		}
@@ -155,7 +155,7 @@ int main()
 		// S
 		if (temp == 83) 
 		{
-			int luas = shape[select][nstate[select]][0].countluas() - shape[select][nstate[select]][0].countchar(' ');
+			int luas = shape[select][nstate[select][0].countluas() - shape[select][nstate[select][0].countchar(' ');
 			int hasil = (M*N) - luas;
 			cout << "Karakter bukan blank = " << luas << ":" << hasil << endl;
 		}
@@ -204,7 +204,22 @@ int main()
 		// H
 		if (temp == 72)
 		{
-			cout << "";
+			cout << "+---------------------------------------------------------------------------------------------+" << endl;
+			cout << "| Tombol Q : Menampilkan “Bye...” dan memberhentikan program                                  |" << endl;
+			cout << "| Tombol E : Menghapus semua karakter dalam bidang menjadi blank                              |" << endl;
+			cout << "| Tombol F : Mengubah semua titik yang kosong pada bidang menjadi karakter ‘*’                |" << endl;
+			cout << "| Tombol C : Menghitung kepadatan bidang dan menampilkannya                                   |" << endl;
+			cout << "| Tombol S : Menghitung perbandingan karakter bidang yang tidak kosong dengan karakter kosong |" << endl;
+			cout << "| Tombol direction : Untuk menggerakkan bidang sesuai arah                                    |" << endl;
+			cout << "| Tombol A : Menambah bidang baru (bidang baru akan menimpa di atas bidang yang lama)         |" << endl;
+			cout << "| Tombol P : Memilih bidang yang akan dipakai di antara 2 bidang atau lebih                   |" << endl;
+			cout << "| Tombol U : Meng-undo aksi yang dilakukan sebelumnya                                         |" << endl;
+			cout << "| Tombol R : Me-redo aksi yang sudah pernah dilakukan sebelumnya                              |" << endl;
+			cout << "| Tombol , : Me-rotate bidang 90 derajat berlawanan arah jarum jam                            |" << endl;
+			cout << "| Tombol . : Me-rotate bidang 90 derajat searah jarum jam                                     |" << endl;
+			cout << "| Tombol D : Menghapus bidang terakhir yang sudah dibentuk                                    |" << endl;
+			cout << "| Tombol H : Memunculkan perintah bantuan                                                     |" << endl;
+			cout << "+---------------------------------------------------------------------------------------------+" << endl;
 		}
 		
 		// P

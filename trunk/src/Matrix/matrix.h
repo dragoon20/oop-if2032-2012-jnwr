@@ -1,3 +1,4 @@
+// File : matrix.h
 
 #ifndef _MATRIX_
 #define _MATRIX_
@@ -7,8 +8,8 @@ class matrix
 {
 	private:
 		// atribut
-		atype** isi;
-		const int M,N;
+		atype** isi;		// isi dari matrix
+		const int M,N;		// panjang dan lebar dari matrix
 	
 	public:
 		// 5 sekawan
@@ -18,6 +19,7 @@ class matrix
 		~matrix ();
 		matrix& operator = (const matrix&);
 		friend ostream& operator << (ostream& out, matrix& m)
+		// operator ostream
 		{
 			for (int i=0;i<m.getm();++i)
 			{
@@ -42,6 +44,7 @@ class matrix
 // 5 sekawan
 template <class atype>
 matrix<atype>::matrix ()
+// ctor
 {
 	M = 20;
 	N = 40;
@@ -58,6 +61,7 @@ matrix<atype>::matrix ()
 
 template <class atype>
 matrix<atype>::matrix (int m,int n, atype c) : M(m), N(n)
+// ctor dengan parameter
 {
 	isi = new atype *[M];
 	for (int i=0;i<M;++i)
@@ -72,6 +76,7 @@ matrix<atype>::matrix (int m,int n, atype c) : M(m), N(n)
 
 template <class atype>
 matrix<atype>::matrix (const matrix& m) : M(m.M), N(m.N)
+// cctor
 {
 	isi = new atype *[M];
 	for (int i=0;i<M;++i)
@@ -86,11 +91,13 @@ matrix<atype>::matrix (const matrix& m) : M(m.M), N(m.N)
 
 template <class atype>
 matrix<atype>::~matrix ()
+// dtor
 {
 }
 
 template <class atype>
 matrix<atype>& matrix<atype>::operator = (const matrix& m)
+// operator assignment
 {
 	delete [] isi;
 	isi = new atype *[M];
@@ -115,12 +122,14 @@ atype* matrix<atype>::operator [] (int i) const
 // getter dan setter
 template <class atype>
 int matrix<atype>::getm ()
+// mengembalikan lebar matrix
 {
 	return M;
 }
 
 template <class atype>
 int matrix<atype>::getn ()
+// mengembalikan panjang matrix
 {
 	return N;
 }
