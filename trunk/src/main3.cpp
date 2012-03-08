@@ -125,6 +125,8 @@ int main()
 	select = 0;	// bidang yang ditunjuk saat ini adalah bidang yang pertama kali dibuat
 	
 	// menampilkan bidang pertama kali dengan urutan latar dimasukkan dulu kemudian bidang pertama
+	system ("clear");
+	cout << "Tekan tombol 'H' pada keyboard untuk menampilkan bantuan." << endl;
 	m << background;
 	m << shape[select][nstate[select]][0];
 	cout << m << endl;
@@ -198,8 +200,16 @@ int main()
 						cout << "Terjadi kesalahan: " << endl << s << endl;
 					}
 				}
-				shape[jumlah++][0][0].getinput(x);
-				select=jumlah-1;
+				if (jumlah!=100)
+				{
+					shape[jumlah++][0][0].getinput(x);
+					select=jumlah-1;
+				}
+				else
+				{
+					cout << "Bidang tidak dapat ditambahkan lagi karena jumlahnya sudah maksimal." << endl;
+					temp = -1;
+				}
 			}	
 		}
 		
@@ -213,6 +223,11 @@ int main()
 				{
 					select--;
 				}
+			}
+			else
+			{
+				cout << "Bidang sudah tidak dapat dihapus lagi." << endl;
+				temp = -1;
 			}
 		}
 		
@@ -244,8 +259,15 @@ int main()
 			cout << "Masukkan bidang yang ingin dipilih: ";
 			int temp2;
 			cin >> temp2;
-			temp2--;
-			select = temp2;
+			if (temp2>jumlah)
+			{
+				cout << "Bidang yang dipilih tidak ada." << endl;
+			}
+			else
+			{
+				temp2--;
+				select = temp2;
+			}
 		}
 		
 		// Mengembalikan bidang yang sedang dipilih ke state sebelumnya(undo) jika ditekan tombol 'U' pada keyboard
@@ -375,6 +397,7 @@ int main()
 		{
 			system("clear"); // mengosongkan layar
 			
+			cout << "Tekan tombol 'H' pada keyboard untuk menampilkan bantuan." << endl;
 			m << background; // menampilkan latar ke matriks
 			for (int i=0;i<jumlah;++i)	// menampilkan bidang ke matriks sesuai urutan pembuatan
 			{
