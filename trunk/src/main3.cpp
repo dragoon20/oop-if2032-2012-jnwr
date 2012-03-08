@@ -6,7 +6,6 @@
 #include <termios.h>
 #include <cstdio>
 #include <cstring>
-// #include <conio.h>
 #include <cstdlib>
 
 using namespace std;
@@ -35,6 +34,16 @@ int getkey()
     tcsetattr(fileno(stdin), TCSANOW, &orig_term_attr);
 
     return character;
+}
+
+void tambahstate (int *a, int *b, int *c)
+{
+	*a = (*a+1) % 100;
+	if (*a == *b)
+	{
+		*b += 1;
+	}
+	*c = *a;
 }
 
 /*int getinput()
@@ -99,13 +108,32 @@ int main()
 			cout << "Terjadi kesalahan: " << endl << s << endl;
 		}
 	}
+	
+	bidang<char>*** shape;
+	shape = new bidang<char>** [100];	
+	
+	for (int i =0;i<100;++i)
+	{
+		shape[i] = new bidang<char>* [100];
+		for (int j=0;j<100;++j)
+		{
+			shape[i][j] = new bidang<char>(M,N);
+		}
+	}
+	
 
-	bidang<char> shape(M,N,x)[100][100];
-	int nstate, bstate, lstate, select;
-	nstate = bstate = lstate = select = 0;
+	shape[0][0][0].getinput(x);
+	
+	int nstate[100], bstate[100], lstate[100], select;
+	int jumlah = 1;
+	select = 0;
+	for (int i=0;i<100;++i)
+	{
+		nstate[i] = bstate[i] = lstate [i] = 0;
+	}
 	
 	m << background;
-	m << shape;
+	m << shape[select][nstate[select]][0];
 	cout << m << endl;
 
 	getkey ();
@@ -122,20 +150,106 @@ int main()
 		// E
 		if (temp == 69) 
 		{
-			shape.fillbidang(' ');
+			tambahstate (&nstate[select],&bstate[select],&lstate[select]);
+			shape[select][nstate[select]][0] = shape[select][nstate[select]-1][0];
+			shape[select][nstate[select]][0].fillbidang(' ');
 		}
 		// F
 		if (temp == 70) 
 		{
-			shape.fillbidang('*');
+			tambahstate (&nstate[select],&bstate[select],&lstate[select]);
+			shape[select][nstate[select]][0] = shape[select][nstate[select]-1][0];
+			shape[select][nstate[select]][0].fillbidang('*');
 		}
 		// C
 		if (temp == 67) 
 		{
+			int luas = shape[select][nstate[select][0].countluas();
+			int hasil = (M*N) - luas;
+			cout << "Kepadatan bidang = " << luas << ":" << hasil << endl;
 		}
+		
 		// S
 		if (temp == 83) 
 		{
+			int luas = shape[select][nstate[select][0].countluas() - shape[select][nstate[select][0].countchar(' ');
+			int hasil = (M*N) - luas;
+			cout << "Karakter bukan blank = " << luas << ":" << hasil << endl;
+		}
+		
+		// A
+		if (temp == 65)
+		{
+			if (jumlah!=99)
+			{
+				cek = true;
+				while (cek)
+				{
+					try
+					{
+						cout << "Masukkan kode bidang (dalam angka): ";
+						cin >> x;
+						if (x>(M*N))
+						{
+							throw "Jumlah titik batas bidang lebih banyak dari latar yang tersedia.";
+						}
+						cek=false;
+					}
+					catch (const char *s)
+					{
+						cout << "Terjadi kesalahan: " << endl << s << endl;
+					}
+				}
+				shape[jumlah++][0][0].getinput(x);
+				select=jumlah-1;
+			}	
+		}
+		
+		// D
+		if (temp == 68)
+		{
+			if (jumlah>0)
+			{
+				jumlah--;
+				if (select == jumlah)
+				{
+					select--;
+				}
+			}
+		}
+		
+		// H
+		if (temp == 72)
+		{
+			cout << "";
+		}
+		
+		// P
+		if (temp == 80)
+		{
+			cout << "Masukkan bidang yang ingin dipilih: ";
+			int temp2;
+			cin >> temp2;
+			temp2--;
+			select = temp2;
+		}
+		
+		// U
+		if (temp == 85)
+		{
+			if (nstate[select]!=bstate[select])
+			{
+				nstate[select] = ((nstate[select]+100)-1)%100;
+			}
+		}
+		
+		// R
+		if (temp == 82)
+		{
+			if (nstate[select]!=lstate[select])
+			{
+				nstate[select] = (nstate[select]+1)%100;
+			}
 		}
 
 		// move
@@ -145,56 +259,51 @@ int main()
 			if (temp==91)
 			{	
 				temp = getkey();
+				tambahstate (&nstate[select],&bstate[select],&lstate[select]); 	
+				shape[select][nstate[select]][0] = shape[select][nstate[select]-1][0];
 				if (temp==65)
 				{
-					shape.move(0,1);
+					shape[select][nstate[select]][0].move(0,1);
 				}
 				if (temp==68)
 				{
-					shape.move(-1,0);
+					shape[select][nstate[select]][0].move(-1,0);
 				}
 				if (temp==67)
 				{
-					shape.move(1,0);
+					shape[select][nstate[select]][0].move(1,0);
 				}
 				if (temp==66)
 				{
-					shape.move(0,-1);
+					shape[select][nstate[select]][0].move(0,-1);
 				}
 			}
 		}
-		/*if (temp==72)
-		{
-			shape.move(0,1);
-		}
-		if (temp==75)
-		{
-			shape.move(-1,0);
-		}
-		if (temp==77)
-		{
-			shape.move(1,0);
-		}
-		if (temp==80)
-		{
-			shape.move(0,-1);
-		}*/
-	
-		// rotate
+		
+		// .
 		if (temp==46)
 		{
-			shape.rotate(1);
+			tambahstate (&nstate[select],&bstate[select],&lstate[select]);
+			shape[select][nstate[select]][0] = shape[select][nstate[select]-1][0];
+			shape[select][nstate[select]][0].rotate(1);
 		}
+		
+		// ,
 		if (temp==44)
 		{
-			shape.rotate(3);
+			tambahstate (&nstate[select],&bstate[select],&lstate[select]);
+			shape[select][nstate[select]][0] = shape[select][nstate[select]-1][0];
+			shape[select][nstate[select]][0].rotate(3);
 		}
 	
 		if (temp!=-1)
 		{
 			system("clear");
 			m << background;
-			m << shape;
+			for (int i=0;i<jumlah;++i)
+			{
+				m << shape[i][nstate[i]][0];
+			}
 			cout << m << endl;
 		}
 		
