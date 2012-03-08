@@ -147,7 +147,7 @@ int main()
 		// C
 		if (temp == 67) 
 		{
-			int luas = shape[select][nstate[select][0].countluas();
+			int luas = shape[select][nstate[select]][0].countluas();
 			int hasil = (M*N) - luas;
 			cout << "Kepadatan bidang = " << luas << ":" << hasil << endl;
 		}
@@ -155,7 +155,7 @@ int main()
 		// S
 		if (temp == 83) 
 		{
-			int luas = shape[select][nstate[select][0].countluas() - shape[select][nstate[select][0].countchar(' ');
+			int luas = shape[select][nstate[select]][0].countluas() - shape[select][nstate[select]][0].countchar(' ');
 			int hasil = (M*N) - luas;
 			cout << "Karakter bukan blank = " << luas << ":" << hasil << endl;
 		}
@@ -205,9 +205,9 @@ int main()
 		if (temp == 72)
 		{
 			cout << "+---------------------------------------------------------------------------------------------+" << endl;
-			cout << "| Tombol Q : Menampilkan “Bye...” dan memberhentikan program                                  |" << endl;
+			cout << "| Tombol Q : Menampilkan \"Bye...\" dan memberhentikan program                                  |" << endl;
 			cout << "| Tombol E : Menghapus semua karakter dalam bidang menjadi blank                              |" << endl;
-			cout << "| Tombol F : Mengubah semua titik yang kosong pada bidang menjadi karakter ‘*’                |" << endl;
+			cout << "| Tombol F : Mengubah semua titik yang kosong pada bidang menjadi karakter \"*\"                |" << endl;
 			cout << "| Tombol C : Menghitung kepadatan bidang dan menampilkannya                                   |" << endl;
 			cout << "| Tombol S : Menghitung perbandingan karakter bidang yang tidak kosong dengan karakter kosong |" << endl;
 			cout << "| Tombol direction : Untuk menggerakkan bidang sesuai arah                                    |" << endl;
@@ -256,24 +256,72 @@ int main()
 			temp = getkey();
 			if (temp==91)
 			{	
+				int i=0;
+				int buff = shape[select][nstate[select]][0].getsegi();
+				cek = true;
+				
 				temp = getkey();
 				tambahstate (&nstate[select],&bstate[select],&lstate[select]); 	
 				shape[select][nstate[select]][0] = shape[select][nstate[select]-1][0];
 				if (temp==65)
 				{
-					shape[select][nstate[select]][0].move(0,1);
+					while ((cek)&&(i<buff))
+					{
+						if (shape[select][nstate[select]][0].getbatas(i).GetY()==M-1)
+						{
+							cek=false;
+						}
+						++i;
+					}
+					if (cek)
+					{
+						shape[select][nstate[select]][0].move(0,1);
+					}
 				}
 				if (temp==68)
 				{
-					shape[select][nstate[select]][0].move(-1,0);
+					while ((cek)&&(i<buff))
+					{
+						if (shape[select][nstate[select]][0].getbatas(i).GetX()==0)
+						{
+							cek=false;
+						}
+						++i;
+					}
+					if (cek)
+					{
+						shape[select][nstate[select]][0].move(-1,0);
+					}
 				}
 				if (temp==67)
 				{
-					shape[select][nstate[select]][0].move(1,0);
+					while ((cek)&&(i<buff))
+					{
+						if (shape[select][nstate[select]][0].getbatas(i).GetX()==N-1)
+						{
+							cek=false;
+						}
+						++i;
+					}
+					if (cek)
+					{
+						shape[select][nstate[select]][0].move(1,0);
+					}
 				}
 				if (temp==66)
 				{
-					shape[select][nstate[select]][0].move(0,-1);
+					while ((cek)&&(i<buff))
+					{
+						if (shape[select][nstate[select]][0].getbatas(i).GetY()==0)
+						{
+							cek=false;
+						}
+						++i;
+					}
+					if (cek)
+					{
+						shape[select][nstate[select]][0].move(0,-1);
+					}
 				}
 			}
 		}

@@ -6,6 +6,7 @@
 #include "../Sel/sel.h"
 #include "../Matrix/matrix.h"
 #include <iostream>
+#include <assert.h>
 
 using namespace std;
 
@@ -89,6 +90,8 @@ template <class atype>
 latar<atype>::latar (int m, int n, sel<atype> c)
 // ctor dengan parameter
 {
+	assert (m > 0);
+	assert (n > 0);
 	M = m;
 	N = n;
 	isi = new sel<atype> *[M];
