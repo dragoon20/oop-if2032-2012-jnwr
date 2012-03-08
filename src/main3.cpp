@@ -147,7 +147,7 @@ int main()
 		// C
 		if (temp == 67) 
 		{
-			int luas = shape[select][nstate[select][0].countluas();
+			int luas = shape[select][nstate[select]][0].countluas();
 			int hasil = (M*N) - luas;
 			cout << "Kepadatan bidang = " << luas << ":" << hasil << endl;
 		}
@@ -155,7 +155,7 @@ int main()
 		// S
 		if (temp == 83) 
 		{
-			int luas = shape[select][nstate[select][0].countluas() - shape[select][nstate[select][0].countchar(' ');
+			int luas = shape[select][nstate[select]][0].countluas() - shape[select][nstate[select]][0].countchar(' ');
 			int hasil = (M*N) - luas;
 			cout << "Karakter bukan blank = " << luas << ":" << hasil << endl;
 		}
