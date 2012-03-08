@@ -34,7 +34,11 @@ class bidang
 		{
 			for (int i=0;i<b.getsegi();++i)
 			{
-				out << b[i];
+				out << b.batas[i];
+			}
+			for (int i=0;i<b.getjumlah();++i)
+			{
+				out << b.isi[i];
 			}
 			return out;
 		}
