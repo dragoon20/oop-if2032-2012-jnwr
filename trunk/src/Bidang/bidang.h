@@ -1,3 +1,4 @@
+// File: bidang.h
 
 #ifndef _BIDANG_
 #define _BIDANG_
@@ -7,6 +8,7 @@
 #include "../Matrix/matrix.h"
 #include <iostream>
 #include <cstdlib>
+#include <assert.h>
 
 using namespace std;
 
@@ -15,11 +17,11 @@ class bidang
 {
 	private:
 		// atribut
-		int segi;
-		int jumlah;
-		const int M,N;
-		sel<atype>* batas;
-		sel<atype>* isi;
+		int segi;			// menyatakan jumlah titik sudut yang ada
+		int jumlah;			// menyatakan jumlah titik selain titik sudut pada bidang
+		const int M,N;		// menyatakan batas ukuran latar M*N
+		sel<atype>* batas;	// menyatakan titik-titik sudut
+		sel<atype>* isi;	// menyatakan titik-titik selain titik-titik sudut
 		
 	public:
 		// 5 sekawan
@@ -36,6 +38,8 @@ class bidang
 			}
 			return out;
 		}
+		
+		// menyimpan hasil tampilan sementara dari bidang dalam matrix
 		friend matrix<atype>& operator << (matrix<atype>& temp, bidang& b)
 		{
 			for (int i=0;i<b.getsegi();++i)
@@ -48,45 +52,42 @@ class bidang
 			}
 			return temp;
 		}
-		
-		// operator overloading []
-		// sel<atype>& operator [] (int i) const;
-		
+				
 		// getter setter
 		int getsegi ();
 		void setsegi (int);
 		int getjumlah ();
 		int getm ();
 		int getn ();
+		sel<atype> getisi (int);
+		sel<atype> getbatas (int);
 		
 		// method
 		void move (int,int);
 		void rotate (int);
 		void fillbidang (atype);
-		void resize (int);
-		void addpoint (point);
-		void deletepoint (point);
 		void getinput (int);
 		int countluas();
 		int countchar(atype);
 };
 
+
 // 5 sekawan
 template <class atype>
-bidang<atype>::bidang (): M(20), N(40) 
+bidang<atype>::bidang (): M(20), N(40) 	// ctor
 {
 	segi = 0;
 }
 
 template <class atype>
-bidang<atype>::bidang (int m, int n) : M(m), N(n)
+bidang<atype>::bidang (int m, int n) : M(m), N(n)	// ctor dengar parameter
 {
 	segi = 0;
 	jumlah = 0;
 }
 
 template <class atype>
-bidang<atype>::bidang (const bidang<atype>& b) : M(b.M), N(b.N)
+bidang<atype>::bidang (const bidang<atype>& b) : M(b.M), N(b.N)	// cctor
 {
 	segi = b.segi;
 	jumlah = b.jumlah;
@@ -101,15 +102,14 @@ bidang<atype>::bidang (const bidang<atype>& b) : M(b.M), N(b.N)
 		isi[i] = b.isi[i];
 	}
 }
-
 template <class atype>
-bidang<atype>::~bidang ()
+bidang<atype>::~bidang ()	// dtor
 {
 	delete [] batas;
 }
 
 template <class atype>
-bidang<atype>& bidang<atype>::operator = (const bidang<atype>& b)
+bidang<atype>& bidang<atype>::operator = (const bidang<atype>& b)	// operator =
 {
 	if (segi > 0)
 	{
@@ -134,89 +134,99 @@ bidang<atype>& bidang<atype>::operator = (const bidang<atype>& b)
 	return *this;
 }
 
-// template <class atype>
-// ostream& operator << (ostream out, bidang<atype> &b)
-
-
-// operator overloading []
-/* template <class atype>
-sel<atype>& bidang<atype>::operator [] (int i) const
-{
-	return batas[i];
-} */
-
-
 // getter setter
 template <class atype>
-int bidang<atype>::getsegi ()
+int bidang<atype>::getsegi ()	// mengembalikan jumlah titik sudut
 {
 	return segi;
 }
 
 template <class atype>
-void bidang<atype>::setsegi (int i)
+void bidang<atype>::setsegi (int i)	// mengeset jumlah titik sudut
 {
 	segi = i;
 }
 
 template <class atype>
-int bidang<atype>::getjumlah ()
+int bidang<atype>::getjumlah ()	// mengembalikan jumlah titik selain titik-titik sudut
 {
 	return jumlah;
 }
 
 template <class atype>
-int bidang<atype>::getm ()
+int bidang<atype>::getm ()	// mengembalikan baris maksimal dari latar
 {
 	return M;
 }
 
 template <class atype>
-int bidang<atype>::getn ()
+int bidang<atype>::getn ()	// mengembalikan kolom maksimal dari latar
 {
 	return N;
 }
 
+template <class atype>
+sel<atype> bidang<atype>::getisi (int i)	// mengembalikan sel pada isi bidang
+{
+	return isi[i];
+}
+
+template <class atype>
+sel<atype> bidang<atype>::getbatas (int i)	// mengembalikan sel pada batas bidang
+{
+	return batas[i];
+}
+
+
 // method
 template <class atype>
-void bidang<atype>::move (int a, int b)
+void bidang<atype>::move (int a, int b)	// menggerakan bidang searah sumbu x sejauh a dan searah sumbu y sejauh b
 {
 	point P[segi];
 	
-	try
+	for (int i=0;i<segi;++i)
 	{
-		for (int i=0;i<segi;++i)
+		if (a==-1)
 		{
-			P[i] = batas[i].getp();
-			P[i].move(a,b);
-			int x = P[i].GetX();
-			int y = P[i].GetY();
-			if ((x>=N)||(x<0)||(y>=M)||(y<0))
-			{
-				throw "Titik pada bidang menjadi berada di luar batas latar saat dipindahkan.";
-			}
+			assert(batas[i].getp().GetX()!=0);
 		}
-		for (int i=0;i<jumlah;++i)
+		if (b==-1)
 		{
-			isi[i].move(a,b);
+			assert(batas[i].getp().GetY()!=0);
 		}
-		for (int i=0;i<segi;++i)
+		if (a==1)
 		{
-			batas[i].setp(P[i]);
+			assert(batas[i].getp().GetX()!=N-1);
+		}
+		if (b==1)
+		{
+			assert(batas[i].getp().GetY()!=M-1);
 		}
 	}
-	catch (const char* s)
+	for (int i=0;i<segi;++i)
 	{
-		cout << "Terjadi kesalahan: " << endl << s << endl;
+		P[i] = batas[i].getp();
+		P[i].move(a,b);
+		int x = P[i].GetX();
+		int y = P[i].GetY();
+	}
+	for (int i=0;i<jumlah;++i)
+	{
+		isi[i].move(a,b);
+	}
+	for (int i=0;i<segi;++i)
+	{
+		batas[i].setp(P[i]);
 	}
 }
 
 template <class atype>
-void bidang<atype>::rotate (int t)
+void bidang<atype>::rotate (int t)	// memutar bidang terhadap titik pusat bidang di mana untuk t = 1 berputar 90 derajat berlawanan jarum jam
+									// dan untuk t = 2 berputar 90 derajat searah jarum jam
 {
-	point Q[segi];
 	try
 	{
+		point Q[segi];
 		point P;
 		int Xt = 0;
 		int Yt = 0;
@@ -240,7 +250,7 @@ void bidang<atype>::rotate (int t)
 			Q[i].rotate(P,t);
 			int x = Q[i].GetX();
 			int y = Q[i].GetY();
-			if ((x>=N)||(x<0)||(y>=M)||(y<0))
+			if ((x>=N-1)||(x<0)||(y>=M-1)||(y<0))
 			{
 				throw "Titik pada bidang menjadi berada di luar batas latar saat diputar.";
 			}
@@ -261,7 +271,7 @@ void bidang<atype>::rotate (int t)
 }
 
 template <class atype>
-void bidang<atype>::fillbidang (atype c)
+void bidang<atype>::fillbidang (atype c)	// mengisi semua titik pada bidang dengan c
 {
 	for (int i=0;i<segi;++i)
 	{
@@ -274,39 +284,8 @@ void bidang<atype>::fillbidang (atype c)
 }
 
 template <class atype>
-void bidang<atype>::resize (int)
-{
-}
-
-template <class atype>
-void bidang<atype>::addpoint (point P)
-{
-	isi[segi] = P;
-	segi++;
-}
-
-template <class atype>
-void bidang<atype>::deletepoint (point P)
-{
-	int i = 0;
-	bool cek = true;
-	while (i<segi)
-	{
-		if ((cek) && (isi[i] = P))
-		{
-			cek =false;
-		}
-		if (!cek)
-		{
-			isi[i] = batas [i+1];
-		}
-		i++;
-	}
-	segi--;
-}
-
-template <class atype>
-void bidang<atype>::getinput (int segibaru)
+void bidang<atype>::getinput (int segibaru)	// meminta input dari user akan titik-titik batas dan menentukan semua titik yang ada dalam bidang
+											// serta mengisi semua titik pada bidang dengan character random
 {
 	atype c;
 
@@ -437,13 +416,13 @@ void bidang<atype>::getinput (int segibaru)
 }
 
 template <class atype>
-int bidang<atype>::countluas()
+int bidang<atype>::countluas()	// mengembalikan luas yang merupakan jumlah semua titik pada bidang
 {
 	return (getsegi() + getjumlah()) ;
 }
 
 template <class atype>
-int bidang<atype>::countchar(atype ch)
+int bidang<atype>::countchar(atype ch)	// mengembalikan jumlah isi sel yang sama dengan ch pada bidang
 {	
 	int count = 0 ;
 	for (int i = 0; i <= segi-1 ; i++)
