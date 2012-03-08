@@ -6,7 +6,6 @@
 #include <termios.h>
 #include <cstdio>
 #include <cstring>
-// #include <conio.h>
 #include <cstdlib>
 
 using namespace std;
@@ -39,12 +38,12 @@ int getkey() {
 
 int main()
 {
-	int M,N,x;
-	int temp;
+	int M,N,x;		// M adalah lebar dari latar, N adalah panjang dari latar, x adalah jumlah segi bidang yang dibentuk
+	int temp;		// masukan key dari user
 	
-	bool cek = true;
+	bool cek = true;	// boolean untuk mengecek pengulangan try dan catch
 	
-	while (cek)
+	while (cek)		// exception untuk mengecek apakah panjang dan lebar masukan user sudah benar
 	{
 		try
 		{
@@ -65,7 +64,7 @@ int main()
 	matrix<char> m(M,N,blank);
 
 	cek = true;
-	while (cek)
+	while (cek)	// exception untuk mengecek apakah masukan titik sudut bidang sudah benar
 	{
 		try
 		{
@@ -83,19 +82,19 @@ int main()
 		}
 	}
 
-	bidang<char> shape(M,N);
-	shape.getinput(x);
+	bidang<char> shape(M,N);	// membentuk bidang dengan ukuran M x N
+	shape.getinput(x);			// mengisi jumlah titik sudut
 	
-	m << background;
+	m << background;			
 	m << shape;
 	cout << m << endl;
 
-	getkey ();
+	getkey ();							// meminta masukan any key dari user
 	cout << "Press any key..." << endl;
 	
-	do
+	do	// loop untuk meminta masukan key dari user
 	{
-		temp = getkey();
+		temp = getkey();	
 	} while (temp == -1);
 	
 	return 0;
