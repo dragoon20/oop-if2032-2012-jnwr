@@ -61,13 +61,13 @@ class bidang
 		
 		// method
 		void move (int,int);
-		void mirror (point);
 		void rotate (int);
 		void fillbidang (atype);
 		void resize (int);
 		void addpoint (point);
 		void deletepoint (point);
-		
+		int countluas();
+		int countchar(char);
 };
 
 // 5 sekawan
@@ -328,38 +328,6 @@ void bidang<atype>::move (int a, int b)
 }
 
 template <class atype>
-void bidang<atype>::mirror (point P)
-{
-	point Q[segi];
-	try
-	{
-		for (int i=0;i<segi;++i)
-		{
-			Q[i] = batas[i].getp();
-			Q[i].mirror(P);
-			int x = Q[i].GetX();
-			int y = Q[i].GetY();
-			if ((x>=N)||(x<0)||(y>=M)||(y<0))
-			{
-				throw "Titik pada bidang menjadi berada di luar batas latar saat dicerminkan.";
-			}
-		}
-		for (int i=0;i<jumlah;++i)
-		{
-			isi[i]=isi[i].mirror(P);
-		}
-		for (int i=0;i<segi;++i)
-		{
-			batas[i].setp(Q[i]);
-		}
-	}
-	catch (const char* s)
-	{
-		cout << "Terjadi kesalahan: " << endl << s << endl;
-	}
-}
-
-template <class atype>
 void bidang<atype>::rotate (int t)
 {
 	point Q[segi];
@@ -451,6 +419,28 @@ void bidang<atype>::deletepoint (point P)
 		i++;
 	}
 	segi--;
+}
+
+template <class atype>
+int bidang<atype>::countluas()
+{
+	return (getsegi() + getjumlah()) ;
+}
+
+template <class atype>
+int bidang<atype>::countchar(char ch)
+{	
+	int count = 0 ;
+	for (int i = 0; i <= segi-1 ; i++)
+	{
+		if (ch == batas[i].gett())
+			count++ ;
+	}
+	for (int i = 0; i <= jumlah-1 ; i++)
+	{
+		if (ch == jumlah[i].gett())
+			count++ ;
+	}
 }
 
 #endif

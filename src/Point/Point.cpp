@@ -100,17 +100,8 @@ void point::move (int X, int Y)
 	SetX(newabsis) ; SetY(newordinat) ;
 }
 
-void point::mirror (point P)
-// membuat current_object menjadi cerminannya terhadap titik P
-{
-	int newabsis ; int newordinat ;
-	newabsis = -1 * (GetX() - P.GetX()) + P.GetX() ;
-	newordinat = -1 * (GetY() - P.GetY()) + P.GetY() ;
-	SetX(newabsis) ; SetY(newordinat) ;
-}
-
 void point::rotate (point P, int i)
-// membuat current object diputar searah jarum jam terhadap titik P sejauh 90 (i = 1), 180 (i = 2), atau 270 (i = 3) derajat
+// membuat current object diputar searah jarum jam terhadap titik P sejauh 90 (i = 1), atau 270 (i = 3) derajat
 {
 	if (i == 1) 
 	{
@@ -118,10 +109,6 @@ void point::rotate (point P, int i)
 		newabsis = (GetY() - P.GetY()) + P.GetX() ;
 		newordinat = -1 * (GetX() - P.GetX()) + P.GetY() ;
 		SetX(newabsis) ; SetY(newordinat) ;
-	}
-	else if (i == 2)
-	{
-		mirror(P) ;
 	}
 	else if (i == 3)
 	{
