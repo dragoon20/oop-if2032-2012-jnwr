@@ -1,3 +1,4 @@
+// File: main3.cpp
 
 #include "Latar/latar.h"
 #include "Bidang/bidang.h"
@@ -12,7 +13,7 @@ using namespace std;
 
 const char blank = ' ';
 
-int getkey() 
+int getkey() // fungsi untuk mengambil input dari keyboard berupa character, jika keyboard tidak ditekan maka akan mengembalikan -1
 {
     int character;
     struct termios orig_term_attr;
@@ -36,7 +37,8 @@ int getkey()
     return character;
 }
 
-void tambahstate (int *a, int *b, int *c)
+void tambahstate (int *a, int *b, int *c) // menambah state pada bidang, untuk versioning bidang 
+										  // sehingga dapat dikembalikan bila melakukan kesalahan
 {
 	*a = (*a+1) % 100;
 	if (*a == *b)
@@ -48,12 +50,12 @@ void tambahstate (int *a, int *b, int *c)
 
 int main()
 {
-	int M,N,x;
-	int temp;
+	int M,N,x;	// deklarasi M, N, dan x di mana M dan N nantinya akan jadi ukuran latar dan x merupakan jumlah segi bidang pertama
+	int temp;	// variable sementara
 	
-	bool cek = true;
+	bool cek = true;	// variable sementara
 	
-	while (cek)
+	while (cek)	// looping untuk memastikan ukuran latar yang dimasukkan user benar, menggunakan exception
 	{
 		try
 		{
@@ -70,11 +72,12 @@ int main()
 			cout << "Terjadi kesalahan: " << endl << s << endl;
 		}
 	}
-	latar<char> background(M,N,(sel<char>(point(0,0),blank)));
-	matrix<char> m(M,N,blank);
+	
+	latar<char> background(M,N,(sel<char>(point(0,0),blank)));	// mendeklarasikan latar belakang ukuran M x N diisi dengan blank
+	matrix<char> m(M,N,blank);	// membuat matrix dengan ukuran M x N diisi dengan blank
 
 	cek = true;
-	while (cek)
+	while (cek)	// looping untuk memastikan jumlah titik batas bidang tidak melebihi dari luas latar yang ada
 	{
 		try
 		{
@@ -92,9 +95,10 @@ int main()
 		}
 	}
 	
-	bidang<char>*** shape;
-	shape = new bidang<char>** [100];	
+	bidang<char>*** shape;	// inisialisasi bidang
 	
+	// membuat bidang menjadi berukuran 100 x 100 dan menginisialisasi M dan N pada bidang dengan constructor initialization list
+	shape = new bidang<char>** [100];	
 	for (int i =0;i<100;++i)
 	{
 		shape[i] = new bidang<char>* [100];
@@ -104,47 +108,58 @@ int main()
 		}
 	}
 	
-
-	shape[0][0][0].getinput(x);
+	shape[0][0][0].getinput(x);	// membaca input titik batas pada bidang
 	
+	// menginisialisasi semua state awal, akhir maupun sekarang serta bidang yang dipilih dengan 0
+	// nstate = state bidang saat ini
+	// bstate = state bidang paling awal
+	// lstate = state bidang paling akhir
+	// semua state dibikin menjadi array dengan indeks maksimal 100 untuk menyatakan bidang yang mana yang ditunjuk
+	// select = bidang yang dipilih saat ini (bidang yang dapat dikendalikan)
 	int nstate[100], bstate[100], lstate[100], select;
-	int jumlah = 1;
-	select = 0;
 	for (int i=0;i<100;++i)
 	{
 		nstate[i] = bstate[i] = lstate [i] = 0;
 	}
+	int jumlah = 1;	// menyatakan jumlah dari bidang yang telah diciptakan oleh user
+	select = 0;	// bidang yang ditunjuk saat ini adalah bidang yang pertama kali dibuat
 	
+	// menampilkan bidang pertama kali dengan urutan latar dimasukkan dulu kemudian bidang pertama
 	m << background;
 	m << shape[select][nstate[select]][0];
 	cout << m << endl;
 
-	getkey ();
+	getkey (); // mengambil karakter asing terakhir
 
 	do
 	{
-		temp = getkey();
+		temp = getkey(); // mengambil karakter
 		
+		// mengubah karakter dari lowercase menjadi uppercase jika merupakan lowercase
 		if ((temp>=97)&&(temp<=122))
 		{
 			temp -= 32;
 		} 
 		
-		// E
+		// fillbidang yang sedang dipilih dengan blank jika ditekan tombol 'E' pada keyboard
 		if (temp == 69) 
 		{
 			tambahstate (&nstate[select],&bstate[select],&lstate[select]);
 			shape[select][nstate[select]][0] = shape[select][nstate[select]-1][0];
 			shape[select][nstate[select]][0].fillbidang(' ');
 		}
-		// F
+		
+		// fillbidang yang sedang dipilih dengan '*" jika ditekan tombol 'F' pada keyboard
+		// hal ini dilakukan berdasarkan klarifikasi tidak mungkin ada karakter random blank pada bidang
+		// sehingga hal ini hanya dapat dilakukan setelah bidang difill dengan blank dan berarti semua isi bidang difill '*'
 		if (temp == 70) 
 		{
 			tambahstate (&nstate[select],&bstate[select],&lstate[select]);
 			shape[select][nstate[select]][0] = shape[select][nstate[select]-1][0];
 			shape[select][nstate[select]][0].fillbidang('*');
 		}
-		// C
+		
+		// Menghitung kepadatan bidang jika ditekan tombol 'C' pada keyboard
 		if (temp == 67) 
 		{
 			int luas = shape[select][nstate[select]][0].countluas();
@@ -152,7 +167,7 @@ int main()
 			cout << "Kepadatan bidang = " << luas << ":" << hasil << endl;
 		}
 		
-		// S
+		// Menghitung perbandingan karakter bukan blank dengan latar jika ditekan tombol 'S' pada keyboard
 		if (temp == 83) 
 		{
 			int luas = shape[select][nstate[select]][0].countluas() - shape[select][nstate[select]][0].countchar(' ');
@@ -160,7 +175,7 @@ int main()
 			cout << "Karakter bukan blank = " << luas << ":" << hasil << endl;
 		}
 		
-		// A
+		// Menambah bidang baru dan langsung menjadi bidang yang sedang dipilih jika ditekan tombol 'A' pada keyboard
 		if (temp == 65)
 		{
 			if (jumlah!=99)
@@ -188,7 +203,7 @@ int main()
 			}	
 		}
 		
-		// D
+		// Menghapus bidang yang paling terakhir dimasukkan jika ditekan tombol 'D' pada keyboard
 		if (temp == 68)
 		{
 			if (jumlah>0)
@@ -201,7 +216,7 @@ int main()
 			}
 		}
 		
-		// H
+		// Menampilkan perintah-perintah bantuan jika ditekan tombol 'H' pada keyboard
 		if (temp == 72)
 		{
 			cout << "+---------------------------------------------------------------------------------------------+" << endl;
@@ -222,7 +237,8 @@ int main()
 			cout << "+---------------------------------------------------------------------------------------------+" << endl;
 		}
 		
-		// P
+		// Memilih bidang dengan memasukkan nomor urutan bidang yang ingin dipilih di mana bidang yang dipilih harus sudah dibuat
+		// jika ditekan tombol 'P' pada keyboard
 		if (temp == 80)
 		{
 			cout << "Masukkan bidang yang ingin dipilih: ";
@@ -232,7 +248,8 @@ int main()
 			select = temp2;
 		}
 		
-		// U
+		// Mengembalikan bidang yang sedang dipilih ke state sebelumnya(undo) jika ditekan tombol 'U' pada keyboard
+		// Jika state yang saat ini adalah state yang paling awal maka tidak akan ada perubahan
 		if (temp == 85)
 		{
 			if (nstate[select]!=bstate[select])
@@ -241,7 +258,8 @@ int main()
 			}
 		}
 		
-		// R
+		// Mengembalikan bidang yang sedang dipilih ke state selanjutnya(redo) jika ditekan tombol 'R' pada keyboard
+		// Jika state yang saat ini adalah state yang paling akhir maka tidak akan ada perubahan
 		if (temp == 82)
 		{
 			if (nstate[select]!=lstate[select])
@@ -250,7 +268,7 @@ int main()
 			}
 		}
 
-		// move
+		// Menggerakkan bidang jika ditekan tombol direction pada keyboard
 		if (temp == 27)
 		{
 			temp = getkey();
@@ -263,6 +281,8 @@ int main()
 				temp = getkey();
 				tambahstate (&nstate[select],&bstate[select],&lstate[select]); 	
 				shape[select][nstate[select]][0] = shape[select][nstate[select]-1][0];
+				
+				// Bidang digerakkan ke atas
 				if (temp==65)
 				{
 					while ((cek)&&(i<buff))
@@ -278,6 +298,8 @@ int main()
 						shape[select][nstate[select]][0].move(0,1);
 					}
 				}
+				
+				// Bidang digerakkan ke kiri
 				if (temp==68)
 				{
 					while ((cek)&&(i<buff))
@@ -293,6 +315,8 @@ int main()
 						shape[select][nstate[select]][0].move(-1,0);
 					}
 				}
+				
+				// Bidang digerakkan ke kanan
 				if (temp==67)
 				{
 					while ((cek)&&(i<buff))
@@ -308,6 +332,8 @@ int main()
 						shape[select][nstate[select]][0].move(1,0);
 					}
 				}
+				
+				// Bidang digerakkan ke bawah
 				if (temp==66)
 				{
 					while ((cek)&&(i<buff))
@@ -323,10 +349,11 @@ int main()
 						shape[select][nstate[select]][0].move(0,-1);
 					}
 				}
+				temp = 80; // memastikan temp tidak menyebabkan bidang dan latar tetap ditampilkan ulang
 			}
 		}
 		
-		// .
+		// Memutar bidang sejauh 90 derajat berlawanan arah jarum jam terhadap pusat bidang jika ditekan tombol '.' pada keyboard
 		if (temp==46)
 		{
 			tambahstate (&nstate[select],&bstate[select],&lstate[select]);
@@ -334,7 +361,7 @@ int main()
 			shape[select][nstate[select]][0].rotate(1);
 		}
 		
-		// ,
+		// Memutar bidang sejauh 90 derajat searah jarum jam terhadap pusat bidang jika ditekan tombol ',' pada keyboard
 		if (temp==44)
 		{
 			tambahstate (&nstate[select],&bstate[select],&lstate[select]);
@@ -342,18 +369,21 @@ int main()
 			shape[select][nstate[select]][0].rotate(3);
 		}
 	
-		if (temp!=-1)
+		// menampilkan ulang bidang jika ditekan tombol sesuai fungsi2 sebelumnya
+		// yang tidak menampilkan kata-kata bantuan dan atau menghitung perbandingan
+		if ((temp!=-1)&&(temp!=67)&&(temp!=83)&&(temp!=72))
 		{
-			system("clear");
-			m << background;
-			for (int i=0;i<jumlah;++i)
+			system("clear"); // mengosongkan layar
+			
+			m << background; // menampilkan latar ke matriks
+			for (int i=0;i<jumlah;++i)	// menampilkan bidang ke matriks sesuai urutan pembuatan
 			{
 				m << shape[i][nstate[i]][0];
 			}
-			cout << m << endl;
+			cout << m << endl; // menampilkan matriks ke layar
 		}
 		
-	} while (temp!=81);
+	} while (temp!=81); // menghentikan program jika ditekan tombol 'Q' pada keyboard
 	
 	cout << "Bye..." << endl;
 	

@@ -1,3 +1,4 @@
+// File: main2.cpp
 
 #include "Latar/latar.h"
 #include "Bidang/bidang.h"
