@@ -46,23 +46,6 @@ void tambahstate (int *a, int *b, int *c)
 	*c = *a;
 }
 
-/*int getinput()
-{
-
-	if (_kbhit())
-	{
-		int temp=_getch();
-		if (temp!=224)
-		{
-
-			return temp;
-		}
-		return _getch();
-	}
-
-	return -1;
-}*/
-
 int main()
 {
 	int M,N,x;

@@ -83,7 +83,8 @@ int main()
 		}
 	}
 
-	bidang<char> shape(M,N,x);
+	bidang<char> shape(M,N);
+	shape.getinput(x);
 	
 	m << background;
 	m << shape;
