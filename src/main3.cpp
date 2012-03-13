@@ -61,9 +61,9 @@ int main()
 		{
 			cout << "Masukkan ukuran latar belakang (M, N): ";
 			cin >> M >> N;
-			if ((M<=0)||(N<=0))
+			if ((M*N)<3)
 			{
-				throw "Luas latar minimal adalah 1.";
+				throw "Luas latar minimal adalah 3.";
 			}
 			cek = false;
 		}
@@ -83,6 +83,10 @@ int main()
 		{
 			cout << "Masukkan kode bidang (dalam angka): ";
 			cin >> x;
+			if (x<3)
+			{
+				throw "Jumlah titik batas tidak dapat lebih kecil dari 3.";
+			}
 			if (x>(M*N))
 			{
 				throw "Jumlah titik batas bidang lebih banyak dari latar yang tersedia.";
@@ -189,6 +193,10 @@ int main()
 					{
 						cout << "Masukkan kode bidang (dalam angka): ";
 						cin >> x;
+						if (x<3)
+						{
+							throw "Jumlah titik batas tidak dapat lebih kecil dari 3.";
+						}
 						if (x>(M*N))
 						{
 							throw "Jumlah titik batas bidang lebih banyak dari latar yang tersedia.";
